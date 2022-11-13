@@ -1,20 +1,25 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// backend/app.js
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const express = require("express");
+// const path = require('path'); REMOVED
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var app = express();
+// const indexRouter = require('./routes/index'); REMOVED
+const usersRouter = require('./routes/api/users'); // update the import file path
+const tweetsRouter = require('./routes/api/tweets');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+const app = express();
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(logger('dev')); // log request components (URL/method) to terminal
+app.use(express.json()); // parse JSON request body
+app.use(express.urlencoded({ extended: false })); // parse urlencoded request body
+app.use(cookieParser()); // parse cookies as an object on req.cookies
+//app.use(express.static(path.join(__dirname, 'public'))); REMOVED// serve the static files in the public folder
+
+// Attach Express routers
+// app.use('/', indexRouter); REMOVED
+app.use('/api/users', usersRouter); // update the path
+app.use('/api/tweets', tweetsRouter);
 
 module.exports = app;
